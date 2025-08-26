@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        APP_NAME = "reddit-clone-pipeline"
+        APP_NAME = "reddit-clone"
         RELEASE = "1.0.0"
         DOCKER_USER = "purwanshi"
         DOCKER_PASS = credentials('docker')
@@ -125,6 +125,7 @@ pipeline {
         }
     }
 }
+
 
 
 
