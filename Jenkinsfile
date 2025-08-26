@@ -119,12 +119,13 @@ pipeline {
                     Build Number: ${env.BUILD_NUMBER}<br/>
                     URL: ${env.BUILD_URL}<br/>
                 """,
-                to: 'mishrapurwanshi449@gmail.com',
+                to: 'mishrakalpna703@gmail.com',
                 attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
             )
         }
     }
 }
+
 
 
 
