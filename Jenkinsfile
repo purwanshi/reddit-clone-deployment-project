@@ -109,24 +109,27 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            emailext(
-                subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "The build was successful!\n\nCheck console output at ${env.BUILD_URL}",
-                to: 'mishrapurwanshi449@gmail.com'
-            )
+    stage("Trigger CD Pipeline") {
+            steps {
+                script {
+                    sh "curl -v -k --user clouduser:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/Reddit-Clone-CD/buildWithParameters?token=gitops-token'"
+                }
+            }
+         }
+     }
+     post {
+        always {
+           emailext attachLog: true,
+               subject: "'${currentBuild.result}'",
+               body: "Project: ${env.JOB_NAME}<br/>" +
+                   "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                   "URL: ${env.BUILD_URL}<br/>",
+               to: 'mishrakalpna703@gmail.com',                              
+               attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
-        failure {
-            emailext(
-                subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "The build failed.\n\nCheck console output at ${env.BUILD_URL}",
-                to: 'mishrapurwanshi449@gmail.com'
-            )
-        }
-    }
+     }
+    
 }
-
 
 
 
