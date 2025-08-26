@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     tools {
-        jdk 'jdk17'        // must match name in Jenkins Global Tool Config
-        nodejs 'node16'    // correct syntax is nodejs, not "node js"
+        jdk 'jdk17'
+        nodejs 'nodejs'   // ensure this name exists in Jenkins Global Tool Config
     }
 
     environment {
-        SCANNER_HOME = tool 'sonar-scanner'   // must match your SonarQube scanner name
+        SCANNER_HOME = tool 'sonar-scanner'
         APP_NAME = "reddit-clone-pipeline"
         RELEASE = "1.0.0"
         DOCKER_USER = "purwanshi"
-        DOCKER_PASS = credentials('docker')   // must be Jenkins credentials ID
+        DOCKER_PASS = credentials('docker')
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
         JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
@@ -35,10 +35,10 @@ pipeline {
                 withSonarQubeEnv('SonarQube-Server') {
                     sh '''
                         sonar-scanner \
-						-Dsonar.projectKey=reddit-clone \
-						-Dsonar.sources=. \
-						-Dsonar.host.url=http://192.168.29.79:9000 \
-						-Dsonar.login=sqp_b0023dee983ad4213f8d022563b7796d4aa0ec0e
+                        -Dsonar.projectKey=reddit-clone \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://192.168.29.79:9000 \
+                        -Dsonar.login=sqp_b0023dee983ad4213f8d022563b7796d4aa0ec0e
                     '''
                 }
             }
