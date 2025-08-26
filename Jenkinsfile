@@ -110,21 +110,23 @@ pipeline {
     }
 
     post {
-        always {
+        success {
             emailext(
-                attachLog: true,
-                subject: "'${currentBuild.result}'",
-                body: """
-                    Project: ${env.JOB_NAME}<br/>
-                    Build Number: ${env.BUILD_NUMBER}<br/>
-                    URL: ${env.BUILD_URL}<br/>
-                """,
-                to: 'mishrakalpna703@gmail.com',
-                attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+                subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "The build was successful!\n\nCheck console output at ${env.BUILD_URL}",
+                to: 'mishrapurwanshi449@gmail.com'
+            )
+        }
+        failure {
+            emailext(
+                subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "The build failed.\n\nCheck console output at ${env.BUILD_URL}",
+                to: 'mishrapurwanshi449@gmail.com'
             )
         }
     }
 }
+
 
 
 
